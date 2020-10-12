@@ -30,6 +30,7 @@ struct SinkableObject;
 
 void reset_sink (struct Sink *sink);
 void reset_label (struct SinkLabel *label);
+void reset_object (struct SinkableObject *object);
 
 struct Sink *get_new_sink ();
 

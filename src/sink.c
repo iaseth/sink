@@ -95,6 +95,19 @@ void reset_label (struct SinkLabel *label) {
 	label->last_object = NULL;
 }
 
+void reset_object (struct SinkableObject *object) {
+	object->sink = NULL;
+	object->index = 0;
+	object->line_number = 0;
+
+	object->local_path = NULL;
+	object->remote_path = NULL;
+	object->remote_content = NULL;
+
+	object->next = NULL;
+	object->prev = NULL;
+}
+
 struct Sink *get_new_sink () {
 	FILE *fp = fopen(sinkfile_names[0], "r");
 	char filename[MAX_FILENAME_LENGTH];
@@ -152,10 +165,10 @@ struct Sink *get_new_sink () {
 			if (equals_found) {
 				if (n1 > 0 && n2 > 0) {
 					struct SinkableObject *object = malloc(sizeof(struct SinkableObject));
+					reset_object(object);
 					object->sink = sink;
 					object->index = object_index++;
 					object->line_number = line_number;
-					object->remote_content = NULL;
 
 					object->local_path = malloc((n1+1) * sizeof(char));
 					strcpy(object->local_path, s1);
