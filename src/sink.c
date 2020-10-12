@@ -74,6 +74,18 @@ struct SinkableObject {
 
 
 
+void reset_sink (struct Sink *sink) {
+	sink->label_count = 0;
+	sink->object_count = 0;
+	sink->filename[0] = '\0';
+
+	sink->first_label = NULL;
+	sink->last_label = NULL;
+
+	sink->first_object = NULL;
+	sink->last_object = NULL;
+}
+
 void reset_label (struct SinkLabel *label) {
 	label->sink = NULL;
 	label->index = 0;
@@ -110,12 +122,8 @@ struct Sink *get_new_sink () {
 	}
 
 	struct Sink *sink = malloc(sizeof (struct Sink));
+	reset_sink(sink);
 	strcpy(sink->filename, filename);
-	sink->object_count = 0;
-	sink->first_label = NULL;
-	sink->last_label = NULL;
-	sink->first_object = NULL;
-	sink->last_object = NULL;
 
 	struct SinkLabel *current_label = malloc(sizeof (struct SinkLabel));
 	reset_label(current_label);
