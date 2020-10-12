@@ -198,6 +198,11 @@ void sync_sink (struct Sink *sink) {
 }
 
 void sync_object (struct SinkableObject *object) {
+	if (object == NULL) {
+		printf("Called sync_object() on NULL!\n");
+		return;
+	}
+
 	MESSAGE_SINKABLE_OBJECT("Called sync_object()");
 	download_object(object);
 	save_object_to_disk(object);
@@ -217,7 +222,8 @@ void save_object_to_disk (struct SinkableObject *object) {
 	}
 
 	if (object->remote_content == NULL) {
-		MESSAGE_SINKABLE_OBJECT("Cannot save empty content!");
+		MESSAGE_SINKABLE_OBJECT("Cannot save to disk as remote content is empty!");
+		return;
 	}
 }
 
