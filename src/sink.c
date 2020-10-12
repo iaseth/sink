@@ -41,9 +41,6 @@ struct Sink {
 	int object_count;
 	char filename[MAX_FILENAME_LENGTH];
 
-	struct SinkableObject *first_object;
-	struct SinkableObject *last_object;
-
 	struct SinkLabel *first_label;
 	struct SinkLabel *last_label;
 };
@@ -63,7 +60,7 @@ struct SinkLabel {
 };
 
 struct SinkableObject {
-	struct Sink *sink;
+	struct SinkLabel *label;
 	int index;
 	int line_number;
 
@@ -84,9 +81,6 @@ void reset_sink (struct Sink *sink) {
 
 	sink->first_label = NULL;
 	sink->last_label = NULL;
-
-	sink->first_object = NULL;
-	sink->last_object = NULL;
 }
 
 void reset_label (struct SinkLabel *label) {
@@ -103,7 +97,7 @@ void reset_label (struct SinkLabel *label) {
 }
 
 void reset_object (struct SinkableObject *object) {
-	object->sink = NULL;
+	object->label = NULL;
 	object->index = 0;
 	object->line_number = 0;
 
@@ -175,7 +169,6 @@ struct Sink *get_new_sink () {
 				if (n1 > 0 && n2 > 0) {
 					struct SinkableObject *object = malloc(sizeof(struct SinkableObject));
 					reset_object(object);
-					object->sink = sink;
 					object->index = object_index++;
 					object->line_number = line_number;
 
@@ -184,7 +177,7 @@ struct Sink *get_new_sink () {
 					object->remote_path = malloc((n2+1) * sizeof(char));
 					strcpy(object->remote_path, s2);
 
-					add_object_to_sink(sink, object);
+					add_object_to_label(current_label, object);
 				}
 			} else if (s1[0] == '[' && s1[n1-1] == ']' && n1 < MAX_LABELNAME_LENGTH) {
 				current_label = malloc(sizeof (struct SinkLabel));
@@ -231,6 +224,7 @@ struct Sink *get_new_sink () {
 }
 
 void add_label_to_sink (struct Sink *sink, struct SinkLabel *label) {
+	label->sink = sink;
 	label->next = NULL;
 	if (sink->first_label == NULL) {
 		sink->first_label = label;
@@ -244,22 +238,32 @@ void add_label_to_sink (struct Sink *sink, struct SinkLabel *label) {
 	sink->label_count++;
 }
 
-void add_object_to_sink (struct Sink *sink, struct SinkableObject *object) {
+void add_object_to_label (struct SinkLabel *label, struct SinkableObject *object) {
+	object->label = label;
 	object->next = NULL;
-	if (sink->first_object == NULL) {
-		sink->first_object = object;
-		sink->last_object = object;
+	if (label->first_object == NULL) {
+		label->first_object = object;
+		label->last_object = object;
 		object->prev = NULL;
 	} else {
-		sink->last_object->next = object;
-		object->prev = sink->last_object;
-		sink->last_object = object;
+		label->last_object->next = object;
+		object->prev = label->last_object;
+		label->last_object = object;
 	}
-	sink->object_count++;
+	label->object_count++;
+	label->sink->object_count++;
 }
 
 void print_sink (struct Sink *sink) {
-	struct SinkableObject *object = sink->first_object;
+	struct SinkLabel *label = sink->first_label;
+	while (label != NULL) {
+		print_label(label);
+		label = label->next;
+	}
+}
+
+void print_label (struct SinkLabel *label) {
+	struct SinkableObject *object = label->first_object;
 	while (object != NULL) {
 		printf("%d. '%s' -=-=- '%s' [on L%d]\n", object->index+1, object->local_path, object->remote_path, object->line_number);
 		object = object->next;
@@ -281,12 +285,6 @@ void sync_sink (struct Sink *sink) {
 		sync_label(label);
 		label = label->next;
 	}
-
-	struct SinkableObject *object = sink->first_object;
-	while (object != NULL) {
-		sync_object(object);
-		object = object->next;
-	}
 }
 
 void sync_label (struct SinkLabel *label) {
@@ -296,6 +294,11 @@ void sync_label (struct SinkLabel *label) {
 	}
 
 	printf("Label: [%s]\n", label->name);
+	struct SinkableObject *object = label->first_object;
+	while (object != NULL) {
+		sync_object(object);
+		object = object->next;
+	}
 }
 
 void sync_object (struct SinkableObject *object) {
@@ -329,7 +332,20 @@ void save_object_to_disk (struct SinkableObject *object) {
 }
 
 void delete_sink (struct Sink *sink) {
-	struct SinkableObject *object = sink->first_object;
+	struct SinkLabel *label = sink->first_label;
+	while (label != NULL) {
+		if (label->next == NULL) {
+			DELETE_SINK_LABLE(label);
+		} else {
+			label = label->next;
+			DELETE_SINK_LABLE(label->prev);
+		}
+	}
+	free(sink);
+}
+
+void delete_sink_label (struct SinkLabel *label) {
+	struct SinkableObject *object = label->first_object;
 	while (object != NULL) {
 		if (object->next == NULL) {
 			DELETE_SINKABLE_OBJECT(object);
@@ -338,7 +354,7 @@ void delete_sink (struct Sink *sink) {
 			DELETE_SINKABLE_OBJECT(object->prev);
 		}
 	}
-	free(sink);
+	free(label);
 }
 
 void delete_sinkable_object (struct SinkableObject *object) {
