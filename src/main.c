@@ -63,6 +63,19 @@ void delete_sinkable_object (struct SinkableObject *object) {
 	free(object);
 }
 
+void add_object_to_sink (struct Sink *sink, struct SinkableObject *object) {
+	if (sink->first_object == NULL) {
+		sink->first_object = object;
+		sink->last_object = object;
+		object->next = NULL;
+		object->prev = NULL;
+	} else {
+		sink->last_object->next = object;
+		object = sink->last_object;
+		sink->last_object = object;
+	}
+}
+
 struct Sink *get_new_sink () {
 	FILE *fp = fopen(sinkfile_names[0], "r");
 
@@ -120,16 +133,7 @@ struct Sink *get_new_sink () {
 					object->remote_path = malloc((n2+1) * sizeof(char));
 					strcpy(object->remote_path, s2);
 
-					if (sink->first_object == NULL) {
-						sink->first_object = object;
-						sink->last_object = object;
-						object->next = NULL;
-						object->prev = NULL;
-					} else {
-						sink->last_object->next = object;
-						object = sink->last_object;
-						sink->last_object = object;
-					}
+					add_object_to_sink(sink, object);
 				}
 			}
 
