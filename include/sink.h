@@ -29,8 +29,46 @@ struct Sink;
 struct SinkLabel;
 struct SinkableObject;
 
+
+
+
+struct Sink {
+	int label_count;
+	int object_count;
+	char filename[MAX_FILENAME_LENGTH];
+
+	struct SinkLabel *first_label;
+	struct SinkLabel *last_label;
+};
+
+struct SinkLabel {
+	struct Sink *sink;
+	int index;
+	int line_number;
+	int object_count;
+	char name[MAX_LABELNAME_LENGTH];
+
+	struct SinkableObject *first_object;
+	struct SinkableObject *last_object;
+
+	struct SinkLabel *next;
+	struct SinkLabel *prev;
+};
+
+struct SinkableObject {
+	struct SinkLabel *label;
+	int index;
+	int line_number;
+
+	char *local_path;
+	char *remote_path;
+	char *remote_content;
+
+	struct SinkableObject *next;
+	struct SinkableObject *prev;
+};
+
 void reset_sink (struct Sink *sink);
-void reset_label (struct SinkLabel *label);
 void reset_object (struct SinkableObject *object);
 
 struct Sink *get_new_sink ();

@@ -1,5 +1,7 @@
 #include "sink.h"
 
+#include "sink_label.h"
+
 #include <string.h>
 #include <curl/curl.h>
 
@@ -36,44 +38,6 @@ int trim_right (char *str) {
 
 
 
-struct Sink {
-	int label_count;
-	int object_count;
-	char filename[MAX_FILENAME_LENGTH];
-
-	struct SinkLabel *first_label;
-	struct SinkLabel *last_label;
-};
-
-struct SinkLabel {
-	struct Sink *sink;
-	int index;
-	int line_number;
-	int object_count;
-	char name[MAX_LABELNAME_LENGTH];
-
-	struct SinkableObject *first_object;
-	struct SinkableObject *last_object;
-
-	struct SinkLabel *next;
-	struct SinkLabel *prev;
-};
-
-struct SinkableObject {
-	struct SinkLabel *label;
-	int index;
-	int line_number;
-
-	char *local_path;
-	char *remote_path;
-	char *remote_content;
-
-	struct SinkableObject *next;
-	struct SinkableObject *prev;
-};
-
-
-
 void reset_sink (struct Sink *sink) {
 	sink->label_count = 0;
 	sink->object_count = 0;
@@ -81,19 +45,6 @@ void reset_sink (struct Sink *sink) {
 
 	sink->first_label = NULL;
 	sink->last_label = NULL;
-}
-
-void reset_label (struct SinkLabel *label) {
-	label->sink = NULL;
-	label->index = 0;
-	label->object_count = 0;
-	label->name[0] = '\0';
-
-	label->first_object = NULL;
-	label->last_object = NULL;
-
-	label->next = NULL;
-	label->prev = NULL;
 }
 
 void reset_object (struct SinkableObject *object) {
