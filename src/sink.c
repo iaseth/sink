@@ -27,6 +27,8 @@ int trim_right (char *str) {
 }
 
 struct Sink {
+	int object_count;
+
 	struct SinkableObject *first_object;
 	struct SinkableObject *last_object;
 };
@@ -66,6 +68,7 @@ struct Sink *get_new_sink () {
 	}
 
 	struct Sink *sink = malloc(sizeof (struct Sink));
+	sink->object_count = 0;
 	sink->first_object = NULL;
 	sink->last_object = NULL;
 
@@ -153,6 +156,7 @@ void add_object_to_sink (struct Sink *sink, struct SinkableObject *object) {
 		object = sink->last_object;
 		sink->last_object = object;
 	}
+	sink->object_count++;
 }
 
 void print_sink (struct Sink *sink) {
@@ -164,6 +168,14 @@ void print_sink (struct Sink *sink) {
 }
 
 void sync_sink (struct Sink *sink) {
+	if (sink == NULL) {
+		printf("Sink is NULL!\n");
+		return;
+	} else if (sink->object_count == 0) {
+		printf("Sink is empty!\n");
+		return;
+	}
+
 	struct SinkableObject *object = sink->first_object;
 	int index = 0;
 	while (object != NULL) {
