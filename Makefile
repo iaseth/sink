@@ -26,7 +26,7 @@ debug:
 ${MAIN_OBJ}: ${MAIN_SRC}
 	${GCC} -c $< -o $@ ${INCLUDE_FLAG}
 
-${SINK_OBJS}: build/%.o: src/%.c
+${SINK_OBJS}: build/%.o: src/%.c include/%.h
 	${GCC} -c $< -o $@ ${INCLUDE_FLAG}
 
 ${BIN}: ${MAIN_OBJ} ${SINK_OBJS}
