@@ -5,7 +5,7 @@
 
 #define true 1
 #define false 0
-#define bool short
+#define bool int
 
 void turn_on_debug ();
 void turn_off_debug ();
