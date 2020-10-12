@@ -4,8 +4,8 @@
 
 #define DEBUG_MESSAGE(...) if (debug == 1) {printf(__VA_ARGS__);}
 
-#define CREATE_SINK(x) struct Sink *x; x = getNewSink();
-#define DELETE_SINK(x) deleteSink(x);x=NULL;
+#define CREATE_SINK(x) struct Sink *x; x = get_new_sink();
+#define DELETE_SINK(x) delete_sink(x);x=NULL;
 
 #define MAX_CHAR 500
 
@@ -52,13 +52,13 @@ struct Sink {
 	struct SinkableObject *last_object;
 };
 
-void deleteSinkableObject (struct SinkableObject *object) {
+void delete_sinkable_object (struct SinkableObject *object) {
 	free(object->local_path);
 	free(object->remote_path);
 	free(object);
 }
 
-struct Sink *getNewSink () {
+struct Sink *get_new_sink () {
 	FILE *fp = fopen(sinkfile_names[0], "r");
 
 	if (fp == NULL) {
@@ -163,7 +163,7 @@ struct Sink *getNewSink () {
 	return sink;
 }
 
-void printSink (struct Sink *sink) {
+void print_sink (struct Sink *sink) {
 	struct SinkableObject *object = sink->first_object;
 	int index = 0;
 	while (object != NULL) {
@@ -173,25 +173,24 @@ void printSink (struct Sink *sink) {
 	}
 }
 
-void deleteSink (struct Sink *sink) {
+void delete_sink (struct Sink *sink) {
 	struct SinkableObject *object = sink->first_object;
 	while (object != NULL) {
 		if (object->next == NULL) {
-			deleteSinkableObject(object);
+			delete_sinkable_object(object);
 			object = NULL;
 		} else {
 			object = object->next;
-			deleteSinkableObject(object->prev);
+			delete_sinkable_object(object->prev);
 		}
 	}
 	free(sink);
 }
 
-int main(int argc, char const *argv[])
-{
+int main (int argc, char const *argv[]) {
 	CREATE_SINK(sink);
 
-	printSink(sink);
+	print_sink(sink);
 
 	DELETE_SINK(sink);
 	return 0;
