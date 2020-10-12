@@ -203,7 +203,7 @@ void save_object_to_disk (struct SinkableObject *object) {
 	}
 
 	if (object->remote_content == NULL) {
-		printf("%s [%s] ---> Cannot save empty content!\n", object->local_path, object->remote_path);
+		MESSAGE_SINKABLE_OBJECT("Cannot save empty content!");
 	}
 }
 
