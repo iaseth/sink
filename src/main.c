@@ -57,6 +57,9 @@ struct Sink {
 void delete_sinkable_object (struct SinkableObject *object) {
 	free(object->local_path);
 	free(object->remote_path);
+	if (object->remote_content != NULL) {
+		free(object->remote_content);
+	}
 	free(object);
 }
 
@@ -110,6 +113,7 @@ struct Sink *get_new_sink () {
 				if (n1 > 0 && n2 > 0) {
 					struct SinkableObject *object = malloc(sizeof(struct SinkableObject));
 					object->line_number = line_number;
+					object->remote_content = NULL;
 
 					object->local_path = malloc((n1+1) * sizeof(char));
 					strcpy(object->local_path, s1);
