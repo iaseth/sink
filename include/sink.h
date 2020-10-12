@@ -26,6 +26,9 @@ void add_object_to_sink (struct Sink *sink, struct SinkableObject *object);
 
 void print_sink (struct Sink *sink);
 
+void sync_sink (struct Sink *sink);
+void sync_object (struct SinkableObject *object);
+
 void delete_sink (struct Sink *sink);
 void delete_sinkable_object (struct SinkableObject *object);
 

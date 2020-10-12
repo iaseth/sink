@@ -162,6 +162,20 @@ void print_sink (struct Sink *sink) {
 	}
 }
 
+void sync_sink (struct Sink *sink) {
+	struct SinkableObject *object = sink->first_object;
+	int index = 0;
+	while (object != NULL) {
+		sync_object(object);
+		object = object->next;
+		index++;
+	}
+}
+
+void sync_object (struct SinkableObject *object) {
+	printf("%s\n", object->local_path);
+}
+
 void delete_sink (struct Sink *sink) {
 	struct SinkableObject *object = sink->first_object;
 	while (object != NULL) {
