@@ -37,11 +37,15 @@ int trim_right (char *str) {
 
 
 struct Sink {
+	int label_count;
 	int object_count;
 	char filename[MAX_FILENAME_LENGTH];
 
 	struct SinkableObject *first_object;
 	struct SinkableObject *last_object;
+
+	struct SinkLabel *first_label;
+	struct SinkLabel *last_label;
 };
 
 struct SinkLabel {
