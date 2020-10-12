@@ -11,7 +11,7 @@
 
 #define DELETE_SINKABLE_OBJECT(x) delete_sinkable_object(x);x=NULL;
 
-#define MESSAGE_SINKABLE_OBJECT(...) printf("%s [%s] ---> ", object->local_path, object->remote_path); printf(__VA_ARGS__); printf("\n");
+#define MESSAGE_SINKABLE_OBJECT(...) printf("(%d of %d) %s [%s] ---> ", (object->index+1), object->sink->object_count, object->local_path, object->remote_path); printf(__VA_ARGS__); printf("\n");
 
 #define MAX_CHAR 500
 

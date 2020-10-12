@@ -44,6 +44,7 @@ struct Sink {
 };
 
 struct SinkableObject {
+	struct Sink *sink;
 	int index;
 	int line_number;
 
@@ -108,6 +109,7 @@ struct Sink *get_new_sink () {
 			if (equals_found) {
 				if (n1 > 0 && n2 > 0) {
 					struct SinkableObject *object = malloc(sizeof(struct SinkableObject));
+					object->sink = sink;
 					object->index = object_index++;
 					object->line_number = line_number;
 					object->remote_content = NULL;
@@ -196,7 +198,7 @@ void sync_sink (struct Sink *sink) {
 }
 
 void sync_object (struct SinkableObject *object) {
-	printf("%2d. %s [%s]\n", object->index+1, object->local_path, object->remote_path);
+	MESSAGE_SINKABLE_OBJECT("Called sync_object()");
 	download_object(object);
 	save_object_to_disk(object);
 }
