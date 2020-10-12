@@ -26,6 +26,11 @@ int trim_right (char *str) {
 	return last_nonspace_index + 1;
 }
 
+struct Sink {
+	struct SinkableObject *first_object;
+	struct SinkableObject *last_object;
+};
+
 struct SinkableObject {
 	int line_number;
 
@@ -36,20 +41,6 @@ struct SinkableObject {
 	struct SinkableObject *next;
 	struct SinkableObject *prev;
 };
-
-struct Sink {
-	struct SinkableObject *first_object;
-	struct SinkableObject *last_object;
-};
-
-void delete_sinkable_object (struct SinkableObject *object) {
-	free(object->local_path);
-	free(object->remote_path);
-	if (object->remote_content != NULL) {
-		free(object->remote_content);
-	}
-	free(object);
-}
 
 struct Sink *get_new_sink () {
 	FILE *fp = fopen(sinkfile_names[0], "r");
@@ -182,6 +173,15 @@ void delete_sink (struct Sink *sink) {
 		}
 	}
 	free(sink);
+}
+
+void delete_sinkable_object (struct SinkableObject *object) {
+	free(object->local_path);
+	free(object->remote_path);
+	if (object->remote_content != NULL) {
+		free(object->remote_content);
+	}
+	free(object);
 }
 
 

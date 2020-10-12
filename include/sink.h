@@ -21,10 +21,12 @@ struct Sink;
 struct SinkableObject;
 
 struct Sink *get_new_sink ();
-void print_sink (struct Sink *sink);
-void delete_sink (struct Sink *sink);
+
 void add_object_to_sink (struct Sink *sink, struct SinkableObject *object);
 
+void print_sink (struct Sink *sink);
+
+void delete_sink (struct Sink *sink);
 void delete_sinkable_object (struct SinkableObject *object);
 
 
