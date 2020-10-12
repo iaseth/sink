@@ -1,7 +1,6 @@
 #include "sink.h"
 
 #include <string.h>
-#include <curl/curl.h>
 
 #include "sink_common.h"
 
@@ -34,6 +33,8 @@ void reset_sink (struct Sink *sink) {
 	sink->label_count = 0;
 	sink->object_count = 0;
 	sink->filename[0] = '\0';
+
+	sink->curl = NULL;
 
 	sink->first_label = NULL;
 	sink->last_label = NULL;
@@ -68,6 +69,9 @@ struct Sink *get_new_sink () {
 	struct Sink *sink = malloc(sizeof (struct Sink));
 	reset_sink(sink);
 	strcpy(sink->filename, filename);
+
+	curl_global_init(CURL_GLOBAL_DEFAULT);
+	sink->curl = curl_easy_init();
 
 	struct SinkLabel *current_label = malloc(sizeof (struct SinkLabel));
 	reset_label(current_label);
@@ -208,6 +212,9 @@ void delete_sink (struct Sink *sink) {
 			DELETE_SINK_LABLE(label->prev);
 		}
 	}
+
+	curl_easy_cleanup(sink->curl);
+	curl_global_cleanup();
 	free(sink);
 }
 

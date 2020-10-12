@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <curl/curl.h>
+
 #include "sink_label.h"
 #include "sink_object.h"
 
@@ -19,6 +21,9 @@ struct Sink {
 	int label_count;
 	int object_count;
 	char filename[MAX_FILENAME_LENGTH];
+
+	CURL *curl;
+	CURLcode res;
 
 	struct SinkLabel *first_label;
 	struct SinkLabel *last_label;
