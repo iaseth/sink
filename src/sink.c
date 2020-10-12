@@ -181,14 +181,14 @@ struct Sink *get_new_sink () {
 }
 
 void add_object_to_sink (struct Sink *sink, struct SinkableObject *object) {
+	object->next = NULL;
 	if (sink->first_object == NULL) {
 		sink->first_object = object;
 		sink->last_object = object;
-		object->next = NULL;
 		object->prev = NULL;
 	} else {
 		sink->last_object->next = object;
-		object = sink->last_object;
+		object->prev = sink->last_object;
 		sink->last_object = object;
 	}
 	sink->object_count++;
