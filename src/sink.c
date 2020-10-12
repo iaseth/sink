@@ -1,7 +1,5 @@
 #include "sink.h"
 
-#include "sink_label.h"
-
 #include <string.h>
 #include <curl/curl.h>
 
@@ -45,19 +43,6 @@ void reset_sink (struct Sink *sink) {
 
 	sink->first_label = NULL;
 	sink->last_label = NULL;
-}
-
-void reset_object (struct SinkableObject *object) {
-	object->label = NULL;
-	object->index = 0;
-	object->line_number = 0;
-
-	object->local_path = NULL;
-	object->remote_path = NULL;
-	object->remote_content = NULL;
-
-	object->next = NULL;
-	object->prev = NULL;
 }
 
 struct Sink *get_new_sink () {
@@ -214,36 +199,6 @@ void sync_sink (struct Sink *sink) {
 	}
 }
 
-void sync_object (struct SinkableObject *object) {
-	if (object == NULL) {
-		printf("Called sync_object() on NULL!\n");
-		return;
-	}
-
-	MESSAGE_SINKABLE_OBJECT("Called sync_object()");
-	download_object(object);
-	save_object_to_disk(object);
-}
-
-void download_object (struct SinkableObject *object) {
-	if (object == NULL) {
-		printf("Cannot download NULL object!\n");
-		return;
-	}
-}
-
-void save_object_to_disk (struct SinkableObject *object) {
-	if (object == NULL) {
-		printf("Cannot save NULL object!\n");
-		return;
-	}
-
-	if (object->remote_content == NULL) {
-		MESSAGE_SINKABLE_OBJECT("Cannot save to disk as remote content is empty!");
-		return;
-	}
-}
-
 void delete_sink (struct Sink *sink) {
 	struct SinkLabel *label = sink->first_label;
 	while (label != NULL) {
@@ -255,15 +210,6 @@ void delete_sink (struct Sink *sink) {
 		}
 	}
 	free(sink);
-}
-
-void delete_sinkable_object (struct SinkableObject *object) {
-	free(object->local_path);
-	free(object->remote_path);
-	if (object->remote_content != NULL) {
-		free(object->remote_content);
-	}
-	free(object);
 }
 
 

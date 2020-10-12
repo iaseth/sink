@@ -3,6 +3,8 @@
 
 #include "sink.h"
 
+#define MAX_LABELNAME_LENGTH 50
+
 #define DELETE_SINK_LABLE(x) delete_sink_label(x);x=NULL;
 
 

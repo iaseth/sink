@@ -1,7 +1,5 @@
 #include "sink_label.h"
 
-#include "sink.h"
-
 #include <stdlib.h>
 
 
