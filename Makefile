@@ -17,6 +17,7 @@ BIN = build/sink
 default: ${BIN}
 
 debug:
+	${eval AMP := }
 
 ${MAIN_OBJ}: ${MAIN_SRC}
 	${GCC} -c ${MAIN_SRC} -o ${MAIN_OBJ} ${INCLUDE_FLAG}
@@ -27,7 +28,7 @@ ${SINK_OBJ}: ${SINK_SRC}
 ${BIN}: ${MAIN_OBJ} ${SINK_OBJ}
 	${GCC} ${MAIN_OBJ} ${SINK_OBJ} -o ${BIN} ${LINK_FLAG}
 
-redo: clean run
+redo: clean default
 
 run: ${BIN}
 	@${BIN}
