@@ -1,5 +1,6 @@
 GCC = @gcc
 INCLUDE_FLAG = -Iinclude
+LINK_FLAG = -lcurl
 
 RM = @rm -f
 
@@ -20,7 +21,7 @@ ${SINK_OBJ}: ${SINK_SRC}
 	${GCC} -c ${SINK_SRC} -o ${SINK_OBJ} ${INCLUDE_FLAG}
 
 ${BIN}: ${MAIN_OBJ} ${SINK_OBJ}
-	${GCC} ${MAIN_OBJ} ${SINK_OBJ} -o ${BIN}
+	${GCC} ${MAIN_OBJ} ${SINK_OBJ} -o ${BIN} ${LINK_FLAG}
 
 redo: clean run
 

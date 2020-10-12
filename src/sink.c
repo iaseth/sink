@@ -1,6 +1,7 @@
 #include "sink.h"
 
 #include <string.h>
+#include <curl/curl.h>
 
 int debug = 0;
 
