@@ -32,6 +32,7 @@ struct Sink {
 };
 
 struct SinkableObject {
+	int index;
 	int line_number;
 
 	char *local_path;
@@ -74,6 +75,7 @@ struct Sink *get_new_sink () {
 	int n1 = 0;
 	int n2 = 0;
 
+	int object_index = 0;
 	int line_number = 1;
 	bool equals_found = false;
 
@@ -91,6 +93,7 @@ struct Sink *get_new_sink () {
 			if (equals_found) {
 				if (n1 > 0 && n2 > 0) {
 					struct SinkableObject *object = malloc(sizeof(struct SinkableObject));
+					object->index = object_index++;
 					object->line_number = line_number;
 					object->remote_content = NULL;
 
@@ -154,11 +157,9 @@ void add_object_to_sink (struct Sink *sink, struct SinkableObject *object) {
 
 void print_sink (struct Sink *sink) {
 	struct SinkableObject *object = sink->first_object;
-	int index = 0;
 	while (object != NULL) {
-		printf("%d. '%s' -=-=- '%s' [on L%d]\n", index+1, object->local_path, object->remote_path, object->line_number);
+		printf("%d. '%s' -=-=- '%s' [on L%d]\n", object->index+1, object->local_path, object->remote_path, object->line_number);
 		object = object->next;
-		index++;
 	}
 }
 
