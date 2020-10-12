@@ -3,7 +3,15 @@
 #include <string.h>
 #include <curl/curl.h>
 
-int debug = 0;
+int debug = false;
+
+void turn_on_debug () {
+	debug = true;
+}
+
+void turn_off_debug () {
+	debug = false;
+}
 
 char sinkfile_names[3][10] = {
 	"sinkfile",
@@ -26,6 +34,8 @@ int trim_right (char *str) {
 	return last_nonspace_index + 1;
 }
 
+
+
 struct Sink {
 	int object_count;
 
@@ -44,6 +54,8 @@ struct SinkableObject {
 	struct SinkableObject *next;
 	struct SinkableObject *prev;
 };
+
+
 
 struct Sink *get_new_sink () {
 	FILE *fp = fopen(sinkfile_names[0], "r");

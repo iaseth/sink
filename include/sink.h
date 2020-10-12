@@ -19,6 +19,9 @@
 #define false 0
 #define bool short
 
+void turn_on_debug ();
+void turn_off_debug ();
+
 struct Sink;
 struct SinkableObject;
 
