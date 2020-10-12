@@ -14,6 +14,8 @@
 #define MESSAGE_SINKABLE_OBJECT(...) printf("(%d of %d) %s [%s] ---> ", (object->index+1), object->sink->object_count, object->local_path, object->remote_path); printf(__VA_ARGS__); printf("\n");
 
 #define MAX_CHAR 500
+#define MAX_FILENAME_LENGTH 50
+#define MAX_LABELNAME_LENGTH 50
 
 #define true 1
 #define false 0

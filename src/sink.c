@@ -38,6 +38,7 @@ int trim_right (char *str) {
 
 struct Sink {
 	int object_count;
+	char filename[MAX_FILENAME_LENGTH];
 
 	struct SinkableObject *first_object;
 	struct SinkableObject *last_object;
@@ -48,7 +49,7 @@ struct SinkLabel {
 	int index;
 	int line_number;
 	int object_count;
-	char name[20];
+	char name[MAX_LABELNAME_LENGTH];
 
 	struct SinkableObject *first_object;
 	struct SinkableObject *last_object;
@@ -71,6 +72,7 @@ struct SinkableObject {
 
 struct Sink *get_new_sink () {
 	FILE *fp = fopen(sinkfile_names[0], "r");
+	char filename[MAX_FILENAME_LENGTH];
 
 	if (fp == NULL) {
 		DEBUG_MESSAGE("Not found: %s\n", sinkfile_names[0]);
@@ -83,15 +85,19 @@ struct Sink *get_new_sink () {
 				return NULL;
 			} else {
 				DEBUG_MESSAGE("Found: %s\n", sinkfile_names[2]);
+				strcpy(filename, sinkfile_names[2]);
 			}
 		} else {
 			DEBUG_MESSAGE("Found: %s\n", sinkfile_names[1]);
+			strcpy(filename, sinkfile_names[1]);
 		}
 	} else {
 		DEBUG_MESSAGE("Found: %s\n", sinkfile_names[0]);
+		strcpy(filename, sinkfile_names[0]);
 	}
 
 	struct Sink *sink = malloc(sizeof (struct Sink));
+	strcpy(sink->filename, filename);
 	sink->object_count = 0;
 	sink->first_object = NULL;
 	sink->last_object = NULL;
@@ -201,6 +207,7 @@ void sync_sink (struct Sink *sink) {
 		return;
 	}
 
+	printf("sync_sink called on --> '%s'\n", sink->filename);
 	struct SinkableObject *object = sink->first_object;
 	while (object != NULL) {
 		sync_object(object);
