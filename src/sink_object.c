@@ -43,10 +43,11 @@ void download_object (struct SinkObject *object) {
 		curl_easy_setopt(curl, CURLOPT_URL, object->remote_path);
 		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
 		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
-		FILE *f = fopen(object->local_path, "wb");
-		curl_easy_setopt(curl, CURLOPT_WRITEDATA, f);
+		FILE *fp = fopen(object->local_path, "wb");
+		curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
 
 		res = curl_easy_perform(curl);
+		fclose(fp);
 		if (res != CURLE_OK) {
 			MESSAGE_SINKABLE_OBJECT("Curl problems!");
 		}
