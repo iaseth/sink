@@ -177,11 +177,9 @@ void sync_sink (struct Sink *sink) {
 	}
 
 	struct SinkableObject *object = sink->first_object;
-	int index = 0;
 	while (object != NULL) {
 		sync_object(object);
 		object = object->next;
-		index++;
 	}
 }
 
@@ -192,11 +190,21 @@ void sync_object (struct SinkableObject *object) {
 }
 
 void download_object (struct SinkableObject *object) {
-	//
+	if (object == NULL) {
+		printf("Cannot download NULL object!\n");
+		return;
+	}
 }
 
 void save_object_to_disk (struct SinkableObject *object) {
-	//
+	if (object == NULL) {
+		printf("Cannot save NULL object!\n");
+		return;
+	}
+
+	if (object->remote_content == NULL) {
+		printf("%s [%s] ---> Cannot save empty content!\n", object->local_path, object->remote_path);
+	}
 }
 
 void delete_sink (struct Sink *sink) {
