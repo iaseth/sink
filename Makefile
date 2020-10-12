@@ -6,11 +6,15 @@ LINK_FLAG = -lcurl
 
 RM = ${AMP}rm -f
 
+SINK_NAMES = sink
+SINK_NAMES += sink_label
+SINK_NAMES += sink_object
+
+SINK_OBJ_NAMES = ${addsuffix .o, ${SINK_NAMES}}
+SINK_OBJS = ${addprefix build/, ${SINK_OBJ_NAMES}}
+
 MAIN_SRC = src/main.c
 MAIN_OBJ = build/main.o
-
-SINK_SRC = src/sink.c
-SINK_OBJ = build/sink.o
 
 BIN = build/sink
 
@@ -22,10 +26,10 @@ debug:
 ${MAIN_OBJ}: ${MAIN_SRC}
 	${GCC} -c $< -o $@ ${INCLUDE_FLAG}
 
-${SINK_OBJ}: ${SINK_SRC}
+${SINK_OBJS}: build/%.o: src/%.c
 	${GCC} -c $< -o $@ ${INCLUDE_FLAG}
 
-${BIN}: ${MAIN_OBJ} ${SINK_OBJ}
+${BIN}: ${MAIN_OBJ} ${SINK_OBJS}
 	${GCC} $^ -o $@ ${LINK_FLAG}
 
 redo: clean default
@@ -39,6 +43,6 @@ move:
 clean:
 	${RM} ${BIN}
 	${RM} ${MAIN_OBJ}
-	${RM} ${SINK_OBJ}
+	${RM} ${SINK_OBJS}
 
 
