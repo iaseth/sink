@@ -28,6 +28,8 @@ void print_sink (struct Sink *sink);
 
 void sync_sink (struct Sink *sink);
 void sync_object (struct SinkableObject *object);
+void download_object (struct SinkableObject *object);
+void save_object_to_disk (struct SinkableObject *object);
 
 void delete_sink (struct Sink *sink);
 void delete_sinkable_object (struct SinkableObject *object);

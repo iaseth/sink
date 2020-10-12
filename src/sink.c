@@ -174,7 +174,17 @@ void sync_sink (struct Sink *sink) {
 }
 
 void sync_object (struct SinkableObject *object) {
-	printf("%s\n", object->local_path);
+	printf("%2d. %s [%s]\n", object->index+1, object->local_path, object->remote_path);
+	download_object(object);
+	save_object_to_disk(object);
+}
+
+void download_object (struct SinkableObject *object) {
+	//
+}
+
+void save_object_to_disk (struct SinkableObject *object) {
+	//
 }
 
 void delete_sink (struct Sink *sink) {
