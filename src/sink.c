@@ -97,7 +97,7 @@ struct Sink *get_new_sink () {
 
 			if (equals_found) {
 				if (n1 > 0 && n2 > 0) {
-					struct SinkableObject *object = malloc(sizeof(struct SinkableObject));
+					struct SinkObject *object = malloc(sizeof(struct SinkObject));
 					reset_object(object);
 					object->index = object_index++;
 					object->line_number = line_number;

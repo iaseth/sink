@@ -16,8 +16,8 @@ struct SinkLabel {
 	int object_count;
 	char name[MAX_LABELNAME_LENGTH];
 
-	struct SinkableObject *first_object;
-	struct SinkableObject *last_object;
+	struct SinkObject *first_object;
+	struct SinkObject *last_object;
 
 	struct SinkLabel *next;
 	struct SinkLabel *prev;
@@ -26,7 +26,7 @@ struct SinkLabel {
 
 
 void reset_label (struct SinkLabel *label);
-void add_object_to_label (struct SinkLabel *label, struct SinkableObject *object);
+void add_object_to_label (struct SinkLabel *label, struct SinkObject *object);
 void print_label (struct SinkLabel *label);
 void sync_label (struct SinkLabel *label);
 void delete_sink_label (struct SinkLabel *label);

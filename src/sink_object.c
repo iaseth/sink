@@ -4,7 +4,7 @@
 
 
 
-void reset_object (struct SinkableObject *object) {
+void reset_object (struct SinkObject *object) {
 	object->label = NULL;
 	object->index = 0;
 	object->line_number = 0;
@@ -17,7 +17,7 @@ void reset_object (struct SinkableObject *object) {
 	object->prev = NULL;
 }
 
-void sync_object (struct SinkableObject *object) {
+void sync_object (struct SinkObject *object) {
 	if (object == NULL) {
 		printf("Called sync_object() on NULL!\n");
 		return;
@@ -28,14 +28,14 @@ void sync_object (struct SinkableObject *object) {
 	save_object_to_disk(object);
 }
 
-void download_object (struct SinkableObject *object) {
+void download_object (struct SinkObject *object) {
 	if (object == NULL) {
 		printf("Cannot download NULL object!\n");
 		return;
 	}
 }
 
-void save_object_to_disk (struct SinkableObject *object) {
+void save_object_to_disk (struct SinkObject *object) {
 	if (object == NULL) {
 		printf("Cannot save NULL object!\n");
 		return;
@@ -47,7 +47,7 @@ void save_object_to_disk (struct SinkableObject *object) {
 	}
 }
 
-void delete_sinkable_object (struct SinkableObject *object) {
+void delete_sinkable_object (struct SinkObject *object) {
 	free(object->local_path);
 	free(object->remote_path);
 	if (object->remote_content != NULL) {

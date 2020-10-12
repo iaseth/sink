@@ -8,7 +8,7 @@
 
 
 
-struct SinkableObject {
+struct SinkObject {
 	struct SinkLabel *label;
 	int index;
 	int line_number;
@@ -17,16 +17,16 @@ struct SinkableObject {
 	char *remote_path;
 	char *remote_content;
 
-	struct SinkableObject *next;
-	struct SinkableObject *prev;
+	struct SinkObject *next;
+	struct SinkObject *prev;
 };
 
-void reset_object (struct SinkableObject *object);
+void reset_object (struct SinkObject *object);
 
-void sync_object (struct SinkableObject *object);
-void download_object (struct SinkableObject *object);
-void save_object_to_disk (struct SinkableObject *object);
-void delete_sinkable_object (struct SinkableObject *object);
+void sync_object (struct SinkObject *object);
+void download_object (struct SinkObject *object);
+void save_object_to_disk (struct SinkObject *object);
+void delete_sinkable_object (struct SinkObject *object);
 
 
 #endif
