@@ -142,6 +142,8 @@ struct Sink *get_new_sink () {
 
 					add_object_to_sink(sink, object);
 				}
+			} else if (s1[0] == '[' && s1[n1-1] == ']' && n1 < MAX_LABELNAME_LENGTH) {
+				printf("Label: %s\n", s1);
 			}
 
 			s1[0] = '\0';
