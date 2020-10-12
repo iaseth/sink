@@ -1,0 +1,11 @@
+
+SITE_NAME = sink
+SITE_URL = https://sink.ankurseth.in
+SITE_REPO = https://github.com/iaseth/sink
+
+themes = [cli]
+
+[code]
+analytics = data/analytics.html
+
+
