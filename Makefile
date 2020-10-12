@@ -1,8 +1,10 @@
-GCC = @gcc
+AMP = @
+
+GCC = ${AMP}gcc
 INCLUDE_FLAG = -Iinclude
 LINK_FLAG = -lcurl
 
-RM = @rm -f
+RM = ${AMP}rm -f
 
 MAIN_SRC = src/main.c
 MAIN_OBJ = build/main.o
@@ -13,6 +15,8 @@ SINK_OBJ = build/sink.o
 BIN = build/sink
 
 default: ${BIN}
+
+debug:
 
 ${MAIN_OBJ}: ${MAIN_SRC}
 	${GCC} -c ${MAIN_SRC} -o ${MAIN_OBJ} ${INCLUDE_FLAG}
