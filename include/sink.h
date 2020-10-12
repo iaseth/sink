@@ -23,6 +23,7 @@ void turn_on_debug ();
 void turn_off_debug ();
 
 struct Sink;
+struct SinkLabel;
 struct SinkableObject;
 
 struct Sink *get_new_sink ();

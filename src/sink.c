@@ -43,6 +43,17 @@ struct Sink {
 	struct SinkableObject *last_object;
 };
 
+struct SinkLabel {
+	struct Sink *sink;
+	int index;
+	int line_number;
+	int object_count;
+	char name[20];
+
+	struct SinkableObject *first_object;
+	struct SinkableObject *last_object;
+};
+
 struct SinkableObject {
 	struct Sink *sink;
 	int index;
