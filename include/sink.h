@@ -28,6 +28,8 @@ struct Sink;
 struct SinkLabel;
 struct SinkableObject;
 
+void reset_label (struct SinkLabel *label);
+
 struct Sink *get_new_sink ();
 
 void add_object_to_sink (struct Sink *sink, struct SinkableObject *object);
