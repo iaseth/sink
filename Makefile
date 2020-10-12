@@ -19,6 +19,9 @@ redo: clean run
 run: ${BIN}
 	@${BIN}
 
+move:
+	sudo cp ${BIN} /usr/bin
+
 clean:
 	${RM} ${BIN}
 	${RM} ${OBJ}
