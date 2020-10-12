@@ -57,6 +57,9 @@ struct SinkLabel {
 
 	struct SinkableObject *first_object;
 	struct SinkableObject *last_object;
+
+	struct SinkLabel *next;
+	struct SinkLabel *prev;
 };
 
 struct SinkableObject {
@@ -91,8 +94,12 @@ void reset_label (struct SinkLabel *label) {
 	label->index = 0;
 	label->object_count = 0;
 	label->name[0] = '\0';
+
 	label->first_object = NULL;
 	label->last_object = NULL;
+
+	label->next = NULL;
+	label->prev = NULL;
 }
 
 void reset_object (struct SinkableObject *object) {
@@ -140,6 +147,8 @@ struct Sink *get_new_sink () {
 
 	struct SinkLabel *current_label = malloc(sizeof (struct SinkLabel));
 	reset_label(current_label);
+	strcpy(current_label->name, "main");
+	add_label_to_sink(sink, current_label);
 
 	char s1[MAX_CHAR] = "";
 	char s2[MAX_CHAR] = "";
@@ -178,7 +187,11 @@ struct Sink *get_new_sink () {
 					add_object_to_sink(sink, object);
 				}
 			} else if (s1[0] == '[' && s1[n1-1] == ']' && n1 < MAX_LABELNAME_LENGTH) {
-				printf("Label: %s\n", s1);
+				current_label = malloc(sizeof (struct SinkLabel));
+				reset_label(current_label);
+				strcpy(current_label->name, s1+1);
+				current_label->name[n1-2] = '\0';
+				add_label_to_sink(sink, current_label);
 			}
 
 			s1[0] = '\0';
@@ -217,6 +230,20 @@ struct Sink *get_new_sink () {
 	return sink;
 }
 
+void add_label_to_sink (struct Sink *sink, struct SinkLabel *label) {
+	label->next = NULL;
+	if (sink->first_label == NULL) {
+		sink->first_label = label;
+		sink->last_label = label;
+		label->prev = NULL;
+	} else {
+		sink->last_label->next = label;
+		label->prev = sink->last_label;
+		sink->last_label = label;
+	}
+	sink->label_count++;
+}
+
 void add_object_to_sink (struct Sink *sink, struct SinkableObject *object) {
 	object->next = NULL;
 	if (sink->first_object == NULL) {
@@ -249,11 +276,26 @@ void sync_sink (struct Sink *sink) {
 	}
 
 	printf("sync_sink called on --> '%s'\n", sink->filename);
+	struct SinkLabel *label = sink->first_label;
+	while (label != NULL) {
+		sync_label(label);
+		label = label->next;
+	}
+
 	struct SinkableObject *object = sink->first_object;
 	while (object != NULL) {
 		sync_object(object);
 		object = object->next;
 	}
+}
+
+void sync_label (struct SinkLabel *label) {
+	if (label == NULL) {
+		printf("Called sync_label() on NULL!\n");
+		return;
+	}
+
+	printf("Label: [%s]\n", label->name);
 }
 
 void sync_object (struct SinkableObject *object) {

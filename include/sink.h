@@ -34,11 +34,13 @@ void reset_object (struct SinkableObject *object);
 
 struct Sink *get_new_sink ();
 
+void add_label_to_sink (struct Sink *sink, struct SinkLabel *label);
 void add_object_to_sink (struct Sink *sink, struct SinkableObject *object);
 
 void print_sink (struct Sink *sink);
 
 void sync_sink (struct Sink *sink);
+void sync_label (struct SinkLabel *label);
 void sync_object (struct SinkableObject *object);
 void download_object (struct SinkableObject *object);
 void save_object_to_disk (struct SinkableObject *object);
