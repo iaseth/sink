@@ -7,6 +7,7 @@ LINK_FLAG = -lcurl
 RM = ${AMP}rm -f
 
 SINK_NAMES = sink
+SINK_NAMES += sink_common
 SINK_NAMES += sink_label
 SINK_NAMES += sink_object
 

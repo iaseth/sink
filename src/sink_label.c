@@ -2,6 +2,8 @@
 
 #include <stdlib.h>
 
+#include "sink_common.h"
+
 
 
 void reset_label (struct SinkLabel *label) {

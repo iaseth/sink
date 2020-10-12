@@ -1,5 +1,7 @@
 #include "sink_object.h"
 
+#include "sink_common.h"
+
 
 
 void reset_object (struct SinkableObject *object) {

@@ -7,21 +7,12 @@
 #include "sink_label.h"
 #include "sink_object.h"
 
-#define DEBUG_MESSAGE(...) if (debug == 1) {printf(__VA_ARGS__);}
-
 #define CREATE_SINK(x) struct Sink *x; x = get_new_sink();
 #define DELETE_SINK(x) delete_sink(x);x=NULL;
 
 
 #define MAX_CHAR 500
 #define MAX_FILENAME_LENGTH 50
-
-#define true 1
-#define false 0
-#define bool short
-
-void turn_on_debug ();
-void turn_off_debug ();
 
 struct Sink;
 struct SinkLabel;

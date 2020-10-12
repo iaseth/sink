@@ -3,15 +3,9 @@
 #include <string.h>
 #include <curl/curl.h>
 
-int debug = false;
+#include "sink_common.h"
 
-void turn_on_debug () {
-	debug = true;
-}
 
-void turn_off_debug () {
-	debug = false;
-}
 
 char sinkfile_names[3][10] = {
 	"sinkfile",
