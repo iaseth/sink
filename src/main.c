@@ -3,6 +3,9 @@
 
 #define DEBUG_MESSAGE(...) if (debug == 1) {printf(__VA_ARGS__);}
 
+#define CREATE_SINK(x) struct Sink *x; x = getNewSink();
+#define DELETE_SINK(x) deleteSink(x);x=NULL;
+
 int debug = 1;
 
 char sinkfile_names[3][10] = {
@@ -45,16 +48,26 @@ struct Sink *getNewSink () {
 	} else {
 		DEBUG_MESSAGE("Found: %s\n", sinkfile_names[0]);
 	}
-	return NULL;
+
+	struct Sink *sink = malloc(sizeof (struct Sink));
+	fclose(fp);
+	return sink;
 }
 
 void printSink (struct Sink *sink) {
 	//
 }
 
+void deleteSink (struct Sink *sink) {
+	free(sink);
+}
+
 int main(int argc, char const *argv[])
 {
-	struct Sink *sink;
-	sink = getNewSink();
+	CREATE_SINK(sink);
+
+	printSink(sink);
+
+	DELETE_SINK(sink);
 	return 0;
 }
