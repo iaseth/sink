@@ -3,6 +3,8 @@
 
 #define DEBUG_MESSAGE(...) if (debug_is_on()) {printf(__VA_ARGS__);}
 
+#define PRINT_TAB printf("    ")
+
 #define true 1
 #define false 0
 #define bool int

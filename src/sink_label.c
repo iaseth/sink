@@ -36,8 +36,15 @@ void add_object_to_label (struct SinkLabel *label, struct SinkObject *object) {
 }
 
 void print_label (struct SinkLabel *label) {
+	if (label == NULL) {
+		printf("print_label() called with NULL!\n");
+	}
+
+	PRINT_TAB;
+	printf("Label: [%s] (%d objects)\n", label->name, label->object_count);
 	struct SinkObject *object = label->first_object;
 	while (object != NULL) {
+		PRINT_TAB; PRINT_TAB;
 		printf("%d. '%s' -=-=- '%s' [on L%d]\n", object->index+1, object->local_path, object->remote_path, object->line_number);
 		object = object->next;
 	}

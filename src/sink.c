@@ -169,6 +169,11 @@ void add_label_to_sink (struct Sink *sink, struct SinkLabel *label) {
 }
 
 void print_sink (struct Sink *sink) {
+	if (sink == NULL) {
+		printf("print_sink() called with NULL!\n");
+	}
+
+	printf("Sink: '%s' (%d labels, %d objects)\n", sink->filename, sink->label_count, sink->object_count);
 	struct SinkLabel *label = sink->first_label;
 	while (label != NULL) {
 		print_label(label);
