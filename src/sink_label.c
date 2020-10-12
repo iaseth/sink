@@ -19,4 +19,55 @@ void reset_label (struct SinkLabel *label) {
 	label->prev = NULL;
 }
 
+void add_object_to_label (struct SinkLabel *label, struct SinkableObject *object) {
+	object->label = label;
+	object->next = NULL;
+	if (label->first_object == NULL) {
+		label->first_object = object;
+		label->last_object = object;
+		object->prev = NULL;
+	} else {
+		label->last_object->next = object;
+		object->prev = label->last_object;
+		label->last_object = object;
+	}
+	label->object_count++;
+	label->sink->object_count++;
+}
+
+void print_label (struct SinkLabel *label) {
+	struct SinkableObject *object = label->first_object;
+	while (object != NULL) {
+		printf("%d. '%s' -=-=- '%s' [on L%d]\n", object->index+1, object->local_path, object->remote_path, object->line_number);
+		object = object->next;
+	}
+}
+
+void sync_label (struct SinkLabel *label) {
+	if (label == NULL) {
+		printf("Called sync_label() on NULL!\n");
+		return;
+	}
+
+	printf("Label: [%s]\n", label->name);
+	struct SinkableObject *object = label->first_object;
+	while (object != NULL) {
+		sync_object(object);
+		object = object->next;
+	}
+}
+
+void delete_sink_label (struct SinkLabel *label) {
+	struct SinkableObject *object = label->first_object;
+	while (object != NULL) {
+		if (object->next == NULL) {
+			DELETE_SINKABLE_OBJECT(object);
+		} else {
+			object = object->next;
+			DELETE_SINKABLE_OBJECT(object->prev);
+		}
+	}
+	free(label);
+}
+
 
