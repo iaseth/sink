@@ -56,7 +56,7 @@ void sync_label (struct SinkLabel *label) {
 		return;
 	}
 
-	printf("Label: [%s]\n", label->name);
+	MESSAGE_SINK_LABLE("called sync_label (%s)", label->name);
 	struct SinkObject *object = label->first_object;
 	while (object != NULL) {
 		sync_object(object);

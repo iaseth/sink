@@ -33,6 +33,8 @@ void download_object (struct SinkObject *object) {
 		printf("Cannot download NULL object!\n");
 		return;
 	}
+
+	MESSAGE_SINKABLE_OBJECT("Downloaded: ");
 }
 
 void save_object_to_disk (struct SinkObject *object) {

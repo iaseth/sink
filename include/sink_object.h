@@ -4,7 +4,7 @@
 #include "sink.h"
 
 #define DELETE_SINKABLE_OBJECT(x) delete_sinkable_object(x);x=NULL;
-#define MESSAGE_SINKABLE_OBJECT(...) printf("(%d of %d) %s [%s] ---> ", (object->index+1), object->label->sink->object_count, object->local_path, object->remote_path); printf(__VA_ARGS__); printf("\n");
+#define MESSAGE_SINKABLE_OBJECT(...) PRINT_TAB; PRINT_TAB; printf("(%d of %d) %s [%s] ---> ", (object->index+1), object->label->sink->object_count, object->local_path, object->remote_path); printf(__VA_ARGS__); printf("\n");
 
 
 

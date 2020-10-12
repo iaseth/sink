@@ -6,6 +6,7 @@
 #define MAX_LABELNAME_LENGTH 50
 
 #define DELETE_SINK_LABLE(x) delete_sink_label(x);x=NULL;
+#define MESSAGE_SINK_LABLE(...) PRINT_TAB; printf("(%d of %d) [%s] ---> ", (label->index+1), label->sink->label_count, label->name); printf(__VA_ARGS__); printf("\n");
 
 
 
