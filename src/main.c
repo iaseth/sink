@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define DEBUG_MESSAGE(...) if (debug == 1) {printf(__VA_ARGS__);}
 
@@ -32,10 +33,12 @@ int trim_right (char *str) {
 	}
 
 	str[last_nonspace_index+1] = '\0';
-	return last_nonspace_index;
+	return last_nonspace_index + 1;
 }
 
 struct SinkableObject {
+	int line_number;
+
 	char *local_path;
 	char *remote_path;
 	char *remote_content;
@@ -46,7 +49,14 @@ struct SinkableObject {
 
 struct Sink {
 	struct SinkableObject *first_object;
+	struct SinkableObject *last_object;
 };
+
+void deleteSinkableObject (struct SinkableObject *object) {
+	free(object->local_path);
+	free(object->remote_path);
+	free(object);
+}
 
 struct Sink *getNewSink () {
 	FILE *fp = fopen(sinkfile_names[0], "r");
@@ -71,6 +81,8 @@ struct Sink *getNewSink () {
 	}
 
 	struct Sink *sink = malloc(sizeof (struct Sink));
+	sink->first_object = NULL;
+	sink->last_object = NULL;
 
 	char s1[MAX_CHAR] = "";
 	char s2[MAX_CHAR] = "";
@@ -89,11 +101,30 @@ struct Sink *getNewSink () {
 			s1[n1] = '\0';
 			s2[n2] = '\0';
 
-			trim_right(s1);
-			trim_right(s2);
+			n1 = trim_right(s1);
+			n2 = trim_right(s2);
 
 			if (equals_found) {
-				printf("[L%d] '%s' =[%d]= '%s'\n", line_number, s1, equals_found, s2);
+				if (n1 > 0 && n2 > 0) {
+					struct SinkableObject *object = malloc(sizeof(struct SinkableObject));
+					object->line_number = line_number;
+
+					object->local_path = malloc((n1+1) * sizeof(char));
+					strcpy(object->local_path, s1);
+					object->remote_path = malloc((n2+1) * sizeof(char));
+					strcpy(object->remote_path, s2);
+
+					if (sink->first_object == NULL) {
+						sink->first_object = object;
+						sink->last_object = object;
+						object->next = NULL;
+						object->prev = NULL;
+					} else {
+						sink->last_object->next = object;
+						object = sink->last_object;
+						sink->last_object = object;
+					}
+				}
 			}
 
 			s1[0] = '\0';
@@ -133,10 +164,26 @@ struct Sink *getNewSink () {
 }
 
 void printSink (struct Sink *sink) {
-	//
+	struct SinkableObject *object = sink->first_object;
+	int index = 0;
+	while (object != NULL) {
+		printf("%d. '%s' -=-=- '%s' [on L%d]\n", index+1, object->local_path, object->remote_path, object->line_number);
+		object = object->next;
+		index++;
+	}
 }
 
 void deleteSink (struct Sink *sink) {
+	struct SinkableObject *object = sink->first_object;
+	while (object != NULL) {
+		if (object->next == NULL) {
+			deleteSinkableObject(object);
+			object = NULL;
+		} else {
+			object = object->next;
+			deleteSinkableObject(object->prev);
+		}
+	}
 	free(sink);
 }
 
