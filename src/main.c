@@ -7,6 +7,8 @@
 #define CREATE_SINK(x) struct Sink *x; x = get_new_sink();
 #define DELETE_SINK(x) delete_sink(x);x=NULL;
 
+#define DELETE_SINKABLE_OBJECT(x) delete_sinkable_object(x);x=NULL;
+
 #define MAX_CHAR 500
 
 #define true 1
@@ -177,11 +179,10 @@ void delete_sink (struct Sink *sink) {
 	struct SinkableObject *object = sink->first_object;
 	while (object != NULL) {
 		if (object->next == NULL) {
-			delete_sinkable_object(object);
-			object = NULL;
+			DELETE_SINKABLE_OBJECT(object);
 		} else {
 			object = object->next;
-			delete_sinkable_object(object->prev);
+			DELETE_SINKABLE_OBJECT(object->prev);
 		}
 	}
 	free(sink);
