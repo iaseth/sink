@@ -75,6 +75,7 @@ struct Sink *get_new_sink () {
 
 	struct SinkLabel *current_label = malloc(sizeof (struct SinkLabel));
 	reset_label(current_label);
+	current_label->index = sink->label_count;
 	strcpy(current_label->name, "main");
 	add_label_to_sink(sink, current_label);
 
@@ -103,7 +104,6 @@ struct Sink *get_new_sink () {
 				if (n1 > 0 && n2 > 0) {
 					struct SinkObject *object = malloc(sizeof(struct SinkObject));
 					reset_object(object);
-					object->index = object_index++;
 					object->line_number = line_number;
 
 					object->local_path = malloc((n1+1) * sizeof(char));
@@ -111,6 +111,7 @@ struct Sink *get_new_sink () {
 					object->remote_path = malloc((n2+1) * sizeof(char));
 					strcpy(object->remote_path, s2);
 
+					object->index = current_label->object_count;
 					add_object_to_label(current_label, object);
 				}
 			} else if (s1[0] == '[' && s1[n1-1] == ']' && n1 < MAX_LABELNAME_LENGTH) {
@@ -122,6 +123,7 @@ struct Sink *get_new_sink () {
 				if (current_label == NULL) {
 					current_label = malloc(sizeof (struct SinkLabel));
 					reset_label(current_label);
+					current_label->index = sink->label_count;
 					strcpy(current_label->name, label_name);
 					add_label_to_sink(sink, current_label);
 				}

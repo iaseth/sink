@@ -41,11 +41,11 @@ void print_label (struct SinkLabel *label) {
 	}
 
 	PRINT_TAB;
-	printf("Label: [%s] (%d objects)\n", label->name, label->object_count);
+	printf("%d. Label: [%s] (%d objects)\n", label->index + 1, label->name, label->object_count);
 	struct SinkObject *object = label->first_object;
 	while (object != NULL) {
 		PRINT_TAB; PRINT_TAB;
-		printf("%d. '%s' -=-=- '%s' [on L%d]\n", object->index+1, object->local_path, object->remote_path, object->line_number);
+		printf("%d.%d. '%s' ---> '%s' [on L%d]\n", object->label->index + 1, object->index+1, object->local_path, object->remote_path, object->line_number);
 		object = object->next;
 	}
 }
