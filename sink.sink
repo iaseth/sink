@@ -4,4 +4,7 @@ LICENSE = https://raw.githubusercontent.com/iaseth/LICENSES/master/MIT
 [potato]
 example.txt = https://raw.githubusercontent.com/iaseth/LICENSES/master/MIT
 
+[main]
+example.txt = https://raw.githubusercontent.com/iaseth/LICENSES/master/MIT
+
 

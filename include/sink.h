@@ -34,6 +34,8 @@ void reset_sink (struct Sink *sink);
 struct Sink *get_new_sink ();
 
 void add_label_to_sink (struct Sink *sink, struct SinkLabel *label);
+struct SinkLabel *get_label_from_name (struct Sink *sink, char *label_name);
+
 void print_sink (struct Sink *sink);
 void sync_sink (struct Sink *sink);
 void delete_sink (struct Sink *sink);

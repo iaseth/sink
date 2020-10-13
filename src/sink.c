@@ -114,11 +114,17 @@ struct Sink *get_new_sink () {
 					add_object_to_label(current_label, object);
 				}
 			} else if (s1[0] == '[' && s1[n1-1] == ']' && n1 < MAX_LABELNAME_LENGTH) {
-				current_label = malloc(sizeof (struct SinkLabel));
-				reset_label(current_label);
-				strcpy(current_label->name, s1+1);
-				current_label->name[n1-2] = '\0';
-				add_label_to_sink(sink, current_label);
+				char label_name[MAX_LABELNAME_LENGTH];
+				strcpy(label_name, s1+1);
+				label_name[n1-2] = '\0';
+				current_label = get_label_from_name(sink, label_name);
+
+				if (current_label == NULL) {
+					current_label = malloc(sizeof (struct SinkLabel));
+					reset_label(current_label);
+					strcpy(current_label->name, label_name);
+					add_label_to_sink(sink, current_label);
+				}
 			}
 
 			s1[0] = '\0';
@@ -170,6 +176,17 @@ void add_label_to_sink (struct Sink *sink, struct SinkLabel *label) {
 		sink->last_label = label;
 	}
 	sink->label_count++;
+}
+
+struct SinkLabel *get_label_from_name (struct Sink *sink, char *label_name) {
+	struct SinkLabel *label = sink->first_label;
+	while (label != NULL) {
+		if (strcmp(label->name, label_name) == 0) {
+			return label;
+		}
+		label = label->next;
+	}
+	return NULL;
 }
 
 void print_sink (struct Sink *sink) {
