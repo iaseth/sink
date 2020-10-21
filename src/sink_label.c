@@ -6,7 +6,9 @@
 
 
 
-void reset_label (struct SinkLabel *label) {
+void
+reset_label (struct SinkLabel *label)
+{
 	label->sink = NULL;
 	label->index = 0;
 	label->object_count = 0;
@@ -19,7 +21,9 @@ void reset_label (struct SinkLabel *label) {
 	label->prev = NULL;
 }
 
-void add_object_to_label (struct SinkLabel *label, struct SinkObject *object) {
+void
+add_object_to_label (struct SinkLabel *label, struct SinkObject *object)
+{
 	object->label = label;
 	object->next = NULL;
 	if (label->first_object == NULL) {
@@ -35,7 +39,9 @@ void add_object_to_label (struct SinkLabel *label, struct SinkObject *object) {
 	label->sink->object_count++;
 }
 
-void print_label (struct SinkLabel *label) {
+void
+print_label (struct SinkLabel *label)
+{
 	if (label == NULL) {
 		printf("print_label() called with NULL!\n");
 	}
@@ -50,7 +56,9 @@ void print_label (struct SinkLabel *label) {
 	}
 }
 
-void sync_label (struct SinkLabel *label) {
+void
+sync_label (struct SinkLabel *label)
+{
 	if (label == NULL) {
 		printf("Called sync_label() on NULL!\n");
 		return;
@@ -64,7 +72,9 @@ void sync_label (struct SinkLabel *label) {
 	}
 }
 
-void delete_sink_label (struct SinkLabel *label) {
+void
+delete_sink_label (struct SinkLabel *label)
+{
 	struct SinkObject *object = label->first_object;
 	while (object != NULL) {
 		if (object->next == NULL) {

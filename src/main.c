@@ -2,7 +2,9 @@
 
 #include "sink.h"
 
-int main (int argc, char const *argv[]) {
+int
+main (int argc, char const *argv[])
+{
 	CREATE_SINK(sink);
 
 	print_sink(sink);
