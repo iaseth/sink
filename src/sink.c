@@ -12,7 +12,9 @@ char sinkfile_names[3][10] = {
 	"sink"
 };
 
-int trim_right (char *str) {
+int
+trim_right (char *str)
+{
 	int n = 0;
 	int last_nonspace_index = 0;
 	char *ch = str;
@@ -29,7 +31,9 @@ int trim_right (char *str) {
 
 
 
-void reset_sink (struct Sink *sink) {
+void
+reset_sink (struct Sink *sink)
+{
 	sink->label_count = 0;
 	sink->object_count = 0;
 	sink->filename[0] = '\0';
@@ -40,7 +44,9 @@ void reset_sink (struct Sink *sink) {
 	sink->last_label = NULL;
 }
 
-struct Sink *get_new_sink () {
+struct Sink *
+get_new_sink ()
+{
 	FILE *fp = fopen(sinkfile_names[0], "r");
 	char filename[MAX_FILENAME_LENGTH];
 
@@ -165,7 +171,9 @@ struct Sink *get_new_sink () {
 	return sink;
 }
 
-void add_label_to_sink (struct Sink *sink, struct SinkLabel *label) {
+void
+add_label_to_sink (struct Sink *sink, struct SinkLabel *label)
+{
 	label->sink = sink;
 	label->next = NULL;
 	if (sink->first_label == NULL) {
@@ -180,7 +188,9 @@ void add_label_to_sink (struct Sink *sink, struct SinkLabel *label) {
 	sink->label_count++;
 }
 
-struct SinkLabel *get_label_from_name (struct Sink *sink, char *label_name) {
+struct SinkLabel *
+get_label_from_name (struct Sink *sink, char *label_name)
+{
 	struct SinkLabel *label = sink->first_label;
 	while (label != NULL) {
 		if (strcmp(label->name, label_name) == 0) {
@@ -191,7 +201,9 @@ struct SinkLabel *get_label_from_name (struct Sink *sink, char *label_name) {
 	return NULL;
 }
 
-void print_sink (struct Sink *sink) {
+void
+print_sink (struct Sink *sink)
+{
 	if (sink == NULL) {
 		printf("print_sink() called with NULL!\n");
 	}
@@ -204,7 +216,9 @@ void print_sink (struct Sink *sink) {
 	}
 }
 
-void sync_sink (struct Sink *sink) {
+void
+sync_sink (struct Sink *sink)
+{
 	if (sink == NULL) {
 		printf("Sink is NULL!\n");
 		return;
@@ -221,7 +235,9 @@ void sync_sink (struct Sink *sink) {
 	}
 }
 
-void delete_sink (struct Sink *sink) {
+void
+delete_sink (struct Sink *sink)
+{
 	struct SinkLabel *label = sink->first_label;
 	while (label != NULL) {
 		if (label->next == NULL) {
